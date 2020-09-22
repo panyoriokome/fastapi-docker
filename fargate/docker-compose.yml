@@ -1,0 +1,19 @@
+version: '2.4'
+
+services:
+  app:
+    image: xxxxxx
+    build:
+      context: ./containers/app
+      dockerfile: Dockerfile
+    # expose:
+    #   - 5000
+  nginx:
+    image: xxxxxx
+    build:
+      context: ./containers/nginx
+      dockerfile: Dockerfile
+    # ports:
+    #   - 80:80
+    depends_on:
+      - app

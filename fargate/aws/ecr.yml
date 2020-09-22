@@ -1,0 +1,43 @@
+AWSTemplateFormatVersion: '2010-09-09'
+
+Description: ECR Repositories
+
+Resources:
+  CodebuildRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: fastapi-fargate/codebuild
+      RepositoryPolicyText:
+        Version: '2008-10-17'
+        Statement:
+          - Sid: CodeBuildAccess
+            Effect: Allow
+            Principal:
+              Service: codebuild.amazonaws.com
+            Action:
+              - ecr:GetDownloadUrlForLayer
+              - ecr:BatchGetImage
+              - ecr:BatchCheckLayerAvailability
+  AppRepository:
+    Type: AWS::ECR::Repository
+    Properties:
+      RepositoryName: fastapi-fargate/app
+      LifecyclePolicy:
+        LifecyclePolicyText: |
+          {
+            "rules": [
+              {
+                "rulePriority": 10,
+                "description": "Untagged images",
+                "selection": {
+                  "tagStatus": "untagged",
+                  "countType": "sinceImagePushed",
+                  "countUnit": "days",
+                  "countNumber": 7
+                },
+                "action": {
+                  "type": "expire"
+                }
+              }
+            ]
+          }

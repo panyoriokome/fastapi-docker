@@ -1,0 +1,4 @@
+FROM docker:dind
+
+RUN apk add --no-cache bash musl-dev libffi-dev libressl-dev linux-headers python3-dev gcc make python3 && \
+    pip3 install --no-cache-dir docker-compose awscli

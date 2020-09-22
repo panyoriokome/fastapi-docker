@@ -1,0 +1,9 @@
+version: "2.4"
+
+services:
+  app:
+    expose:
+      - 5000
+  nginx:
+    ports:
+      - 80:80
